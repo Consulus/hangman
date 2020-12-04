@@ -1,4 +1,4 @@
-import ramdom
+import random
 Hangman_pics = [
     '''
  +--+
@@ -93,4 +93,41 @@ def playAgain():
     return input().lower().startswith('д')
 
 
-print()
+print('ВИСЕЛИЦА')
+wrongLetters = ''
+correctLetters = ''
+secretWord = getRandomWord(words)
+gameIsDone = False
+
+while True:
+    displayBoard(wrongLetters, correctLetters, secretWord)
+
+    guess = getGuess(wrongLetters + correctLetters)
+
+    if guess in secretWord:
+        correctLetters = correctLetters + guess
+
+        foundAllLetters = True
+        for i in range(len(secretWord)):
+            if secretWord[i] not in correctLetters:
+                foundAllLetters = False
+                break
+        if foundAllLetters:
+            print('Было загадано слово - "' + secretWord + '"! Вы угадали!')
+            gameIsDone = True
+    else:
+        wrongLetters = wrongLetters + guess
+
+        if len(wrongLetters) == len(Hangman_pics) - 1:
+            displayBoard(wrongLetters, correctLetters, secretWord)
+            print('Вы проиграли!')
+            gameIsDone = True
+
+    if gameIsDone:
+        if playAgain():
+            wrongLetters = ''
+            correctLetters = ''
+            gameIsDone = False
+            secretWord = getRandomWord(words)
+        else:
+            break
