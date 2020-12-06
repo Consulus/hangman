@@ -1,60 +1,64 @@
 import random
 Hangman_pics = [
     '''
- +--+
- |
- |
- |
-===''',
+    +---+
+    |
+    |
+    |
+    ===''',
     '''
- +--+
- |  0
- |
- |
-===''',
+    +---+
+    |  0
+    |
+    |
+    ===''',
     '''
- +--+
- |  0
- |  |
- |
-===''',
+    +---+
+    |  0
+    |  |
+    |
+    ===''',
     '''
- +--+
- |  0
- | /|
- |
-===''',
+    +---+
+    |  0
+    | /|
+    |
+    ===''',
     '''
- +--+
- |  0
- | /|\
- |
-===''',
+    +---+
+    |  0
+    | /|
+    |
+    ===''',
     '''
- +--+
- |  0
- | /|\
- | / 
-===''',
+    +---+
+    |  0
+    | /|
+    | / 
+    ===''',
     '''
- +--+
- |  0
- | /|\
- | / \
-==='''
+    +---+
+    |  0
+    | /|
+    | / 
+    ==='''
 ]
 
-words = ['стена', 'бутылка', 'любовь',
-         'выкладка', 'мышка', 'компьютер', 'месяц', 'костёр', 'ген', 'паранормальное', 'книга']
+words = {
+    'цвета': 'красный зеленый жёлтый фиолетовый пурпурный'.split(),
+    'города': 'Коктебель Симферополь Москва Грозный Рига Киев Кишинёв'.split(),
+    'авто': 'Мэрседес Ауди Тойота Митсубиши Тесла'
+}
 
 
-def getRandomWord(wordList):
-    wordIndex = random.randint(0, len(wordList) - 1)
-    return wordList[wordIndex]
+def getRandomWord(wordDict):
+    wordKey = random.choice(list(wordDict.keys()))
+    wordIndex = random.randint(0, len(wordDict[wordKey]) - 1)
 
 
 def displayBoard(wrongLetters, correctLetters, secretWord):
     print(Hangman_pics[len(wrongLetters)])
+    print()
     print()
 
     print('Ошибочные буквы:', end=' ')
@@ -94,6 +98,16 @@ def playAgain():
 
 
 print('ВИСЕЛИЦА')
+
+difficulty = ''
+while difficulty not in 'ЛСТ':
+    print('Выберите уровень сложности: Л - Лёгкий, С - Средний, Т - Тяжёлый')
+    difficulty = input().upper()
+if difficulty == 'С':
+    del Hangman_pics[6]
+if difficulty == 'Т':
+    del Hangman_pics[6]
+    del Hangman_pics[5]
 wrongLetters = ''
 correctLetters = ''
 secretWord = getRandomWord(words)
